@@ -21,11 +21,16 @@ null_ls.setup {
     }),
     null_ls.builtins.diagnostics.fish,
     null_ls.builtins.formatting.black,
-    null_ls.builtins.diagnostics.flake8,
-    null_ls.builtins.formatting.isort,
+    null_ls.builtins.diagnostics.flake8.with({
+      diagnostics_format = "[#{c}] #{m} (#{s})"
+    }),
+    null_ls.builtins.formatting.isort.with({
+      method = null_ls.methods.DIAGNOSTICS_ON_SAVE
+    }),
     null_ls.builtins.diagnostics.mypy.with({
       method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
       extra_args = { "--show-error-codes" },
+      diagnostics_format = "[#{c}] #{m} (#{s})"
     }),
   },
   on_attach = function(client, bufnr)
@@ -38,6 +43,9 @@ null_ls.setup {
           lsp_formatting(bufnr)
         end,
       })
+    end
+    should_attach = function(bufnr)
+      return not vim.api.nvim_buf_get_name(bufnr):match("^git://")
     end
   end
 }
