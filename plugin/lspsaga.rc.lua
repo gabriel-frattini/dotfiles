@@ -5,6 +5,9 @@ saga.init_lsp_saga {
   server_filetype_map = {
     typescript = 'typescript',
     python = 'python',
+    javascript = 'javascript',
+    javascriptreact = 'javascript',
+    typescriptreact = 'typescript',
   }
 }
 

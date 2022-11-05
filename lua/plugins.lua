@@ -45,4 +45,9 @@ packer.startup(function(use)
 
   use 'lewis6991/gitsigns.nvim'
   use 'dinhhuy258/git.nvim' -- For git blame & browse
+
+  -- Java
+  -- use 'mfussenegger/nvim-jdtls'
+  use 'williamboman/nvim-lsp-installer'
+
 end)

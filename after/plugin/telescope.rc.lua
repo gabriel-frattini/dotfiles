@@ -16,6 +16,7 @@ telescope.setup {
         ["q"] = actions.close
       },
     },
+    file_ignore_patterns = { "node_modules", ".git", "package-lock.json", "yarn-lock.json", "*-lock.json" },
   },
   extensions = {
     file_browser = {
