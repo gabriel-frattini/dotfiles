@@ -16,7 +16,8 @@ telescope.setup {
         ["q"] = actions.close
       },
     },
-    file_ignore_patterns = { "node_modules", ".git", "package-lock.json", "yarn-lock.json", "*-lock.json" },
+    file_ignore_patterns = { "node_modules", ".git", "package-lock.json", "yarn-lock.json", "*-lock.json", "__pycache__",
+      "htmlcov", ".mypy_cache", ".tox" },
   },
   extensions = {
     file_browser = {
@@ -46,7 +47,7 @@ telescope.load_extension("file_browser")
 vim.keymap.set('n', ';f',
   function()
     builtin.find_files({
-      no_ignore = false,
+      no_ignore = true,
       hidden = true
     })
   end)

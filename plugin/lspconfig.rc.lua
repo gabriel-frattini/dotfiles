@@ -34,9 +34,10 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   --buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', 'gF', '<cmd>lua vim.lsp.buf.format({async = false})<CR>', opts)
+  buf_set_keymap('n', 'gf', '<cmd>lua vim.lsp.buf.format({async = false})<CR>', opts)
   buf_set_keymap('n', 'gA', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   buf_set_keymap('n', 'gR', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+
 end
 
 protocol.CompletionItemKind = {
@@ -121,6 +122,11 @@ nvim_lsp.sumneko_lua.setup {
   },
 }
 
+nvim_lsp.dockerls.setup {
+  on_attach = on_attach,
+  capabilities = capabilities
+}
+
 nvim_lsp.tailwindcss.setup {
   on_attach = on_attach,
   capabilities = capabilities
@@ -140,6 +146,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
   underline = true,
   update_in_insert = false,
+  --virtual_text = false,
   virtual_text = { spacing = 4, prefix = "●" },
   severity_sort = true,
 }
@@ -156,6 +163,7 @@ vim.diagnostic.config({
   virtual_text = {
     prefix = '●'
   },
+  --virtual_text = false,
   update_in_insert = true,
   float = {
     source = "always", -- Or "if_many"
