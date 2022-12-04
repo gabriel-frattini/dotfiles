@@ -54,6 +54,20 @@ vim.keymap.set('n', ';f',
 vim.keymap.set('n', ';r', function()
   builtin.live_grep()
 end)
+vim.keymap.set('n', ';s', function()
+  builtin.grep_string()
+end)
+vim.keymap.set('n', ';gc', function()
+  builtin.git_commits()
+end)
+vim.keymap.set('n', ';gb', function()
+  builtin.git_bcommits()
+end)
+vim.keymap.set('n', ';fe', function()
+  actions.file_edit({
+    prompt_bufnr = 0
+  })
+end)
 vim.keymap.set('n', '\\\\', function()
   builtin.buffers()
 end)
@@ -77,4 +91,6 @@ vim.keymap.set("n", "sf", function()
     initial_mode = "normal",
     layout_config = { height = 40 }
   })
+  vim.keymap.set("n", "ss", function()
+  end)
 end)
