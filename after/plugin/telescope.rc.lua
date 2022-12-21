@@ -17,7 +17,8 @@ telescope.setup {
       },
     },
     file_ignore_patterns = { "node_modules", ".git", "package-lock.json", "yarn-lock.json", "*-lock.json", "__pycache__",
-      "htmlcov", ".mypy_cache", ".tox" },
+      "venv",
+      "htmlcov", ".mypy_cache", ".tox", ".cache", ".m2", ".gradle" },
   },
   extensions = {
     file_browser = {
@@ -62,11 +63,6 @@ vim.keymap.set('n', ';gc', function()
 end)
 vim.keymap.set('n', ';gb', function()
   builtin.git_bcommits()
-end)
-vim.keymap.set('n', ';fe', function()
-  actions.file_edit({
-    prompt_bufnr = 0
-  })
 end)
 vim.keymap.set('n', '\\\\', function()
   builtin.buffers()
