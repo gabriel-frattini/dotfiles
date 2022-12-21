@@ -8,8 +8,16 @@ keymap.set('n', 'ö', 'Bi[<esc>ea]<esc>Bi')
 -- remove brackets around word
 keymap.set('n', 'Ö', 'xExB')
 
+-- faster
+keymap.set('n', '9', '$')
+keymap.set('n', 'd9', 'd$')
+keymap.set('n', 'c9', 'c$')
+
+-- native file explorer
+keymap.set('n', ';ef', ':Explore<Return><Esc>')
+
 -- exit insert mode with Ctrl+z
-keymap.set('i', '<C-z>', '<Esc>')
+keymap.set('i', 'kj', '<Esc>')
 
 -- stay in indent mode
 keymap.set('v', '>', '>gv')
@@ -46,4 +54,7 @@ keymap.set('n', '<C-p>', ':bp<CR>')
 --keymap.set('n', '<C-b>', ':bn<CR>')
 
 -- toggle highligt search
-keymap.set('', 'hT', ':set hlsearch!<CR>')
+keymap.set('', 'ht', ':set hlsearch!<CR>')
+
+keymap.set('n', 'Uf', ':UndotreeFocus<CR>')
+keymap.set('n', 'Ut', ':UndotreeToggle<CR>')
