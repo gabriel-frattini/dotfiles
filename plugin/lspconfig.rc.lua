@@ -73,6 +73,31 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities(
   vim.lsp.protocol.make_client_capabilities()
 )
 
+nvim_lsp.rust_analyzer.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+  settings = {
+    ["rust-analyzer"] = {
+      assist = {
+        importGranularity = "module",
+        importPrefix = "by_self",
+      },
+      cargo = {
+        loadOutDirsFromCheck = true,
+        allFeatures = true,
+        buildScripts = { enable = true },
+      },
+      checkOnSave = {
+        command = "clippy",
+        allFeatures = true,
+      },
+      procMacro = {
+        enable = true,
+      },
+    },
+  },
+})
+
 nvim_lsp.flow.setup {
   on_attach = on_attach,
   capabilities = capabilities
@@ -142,13 +167,19 @@ nvim_lsp.astro.setup {
   capabilities = capabilities
 }
 
+nvim_lsp.svelte.setup {
+  on_attach = on_attach,
+  capabilities = capabilities,
+  filetypes = { "svelte", "html" }
+}
+
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
-  underline = true,
+  --underline = true,
   update_in_insert = false,
-  --virtual_text = false,
-  virtual_text = { spacing = 4, prefix = "●" },
-  severity_sort = true,
+  virtual_text = false,
+  --virtual_text = { spacing = 4, prefix = "●" },
+  severity_sort = false,
 }
 )
 
@@ -159,12 +190,38 @@ for type, icon in pairs(signs) do
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
 
+vim.diagnostic.open_float = (function(orig)
+  return function(bufnr, opts)
+    local lnum = vim.api.nvim_win_get_cursor(0)[1] - 1
+    local opts = opts or {}
+    -- A more robust solution would check the "scope" value in `opts` to
+    -- determine where to get diagnostics from, but if you're only using
+    -- this for your own purposes you can make it as simple as you like
+    local diagnostics = vim.diagnostic.get(opts.bufnr or 0, { lnum = lnum })
+    local max_severity = vim.diagnostic.severity.HINT
+    for _, d in ipairs(diagnostics) do
+      -- Equality is "less than" based on how the severities are encoded
+      if d.severity < max_severity then
+        max_severity = d.severity
+      end
+    end
+    local border_color = ({
+      [vim.diagnostic.severity.HINT]  = "DiagnosticHint",
+      [vim.diagnostic.severity.INFO]  = "DiagnosticInfo",
+      [vim.diagnostic.severity.WARN]  = "DiagnosticWarn",
+      [vim.diagnostic.severity.ERROR] = "DiagnosticError",
+    })[max_severity]
+    orig(bufnr, opts)
+  end
+end)(vim.diagnostic.open_float)
+
+-- Show line diagnostics in floating popup on hover, except insert mode (CursorHoldI)
+vim.o.updatetime = 250
+vim.cmd [[autocmd CursorHold * lua vim.diagnostic.open_float()]]
+
+-- Show source in diagnostics, not inline but as a floating popup
 vim.diagnostic.config({
-  virtual_text = {
-    prefix = '●'
-  },
-  --virtual_text = false,
-  update_in_insert = true,
+  virtual_text = false,
   float = {
     source = "always", -- Or "if_many"
   },
