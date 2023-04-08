@@ -2,16 +2,19 @@ local keymap = vim.keymap
 
 keymap.set('n', 'x', '"_x')
 
--- add brackets around word and put me in insert mode
-keymap.set('n', 'ö', 'Bi[<esc>ea]<esc>Bi')
-
--- remove brackets around word
-keymap.set('n', 'Ö', 'xExB')
-
--- faster
-keymap.set('n', '9', '$')
 keymap.set('n', 'd9', 'd$')
 keymap.set('n', 'c9', 'c$')
+
+-- delete buffer
+keymap.set('n', 'bd', ':bd<CR>')
+
+-- switch buffers
+keymap.set('n','bn',':bn<CR>')
+keymap.set('n','bp',':bp<CR>')
+
+-- navigate quickfix window
+keymap.set('n', 'cc', ':ccl<CR>')
+keymap.set('n', 'co', ':copen<CR>')
 
 -- native file explorer
 keymap.set('n', ';ef', ':Explore<Return><Esc>')
@@ -40,7 +43,7 @@ keymap.set('n', '<C-a>', 'gg<S-v>G')
 -- New tab
 keymap.set('n', 'te', ':tabedit')
 -- Split window
-keymap.set('n', 'ss', ':split<Return><C-w>w')
+keymap.set('n', 'sx', ':split<Return><C-w>w')
 keymap.set('n', 'sv', ':vsplit<Return><C-w>w')
 -- Move window
 keymap.set('n', '<Space>', '<C-w>W')

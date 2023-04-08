@@ -1,5 +1,5 @@
 vim.cmd("autocmd!")
-
+vim.opt.guicursor = "i:block"
 vim.scriptencoding = 'utf-8'
 vim.opt.encoding = 'utf-8'
 vim.opt.fileencoding = 'utf-8'
@@ -19,10 +19,10 @@ vim.opt.scrolloff = 10
 vim.opt.shell = 'fish'
 vim.opt.backupskip = { '/tmp/*', '/private/tmp/*' }
 vim.opt.inccommand = 'split'
-vim.opt.ignorecase = true -- Case insensitive searching UNLESS /C or capital in search
+vim.opt.ignorecase = false -- Case insensitive searching UNLESS /C or capital in search
 vim.opt.smarttab = true
 vim.opt.breakindent = true
-vim.opt.shiftwidth = 2
+vim.opt.shiftwidth = 4
 vim.opt.tabstop = 2
 vim.opt.wrap = false -- No Wrap lines
 vim.opt.backspace = { 'start', 'eol', 'indent' }
@@ -37,9 +37,11 @@ vim.cmd([[let &t_Ce = "\e[4:0m"]])
 
 -- Turn off paste mode when leaving insert
 vim.api.nvim_create_autocmd("InsertLeave", {
-  pattern = '*',
-  command = "set nopaste"
+    pattern = '*',
+    command = "set nopaste"
 })
 
 -- Add asterisks in block comments
 vim.opt.formatoptions:append { 'r' }
+
+vim.g.copilot_assume_mapped = true
