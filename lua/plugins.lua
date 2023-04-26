@@ -49,7 +49,7 @@ packer.startup(function(use)
     use 'mbbill/undotree' -- Undo tree
     use 'leafOfTree/vim-svelte-theme'
     use 'nanotee/sqls.nvim'
-
+    use 'ThePrimeagen/harpoon'
     -- Java
     use {
         "mfussenegger/nvim-jdtls",

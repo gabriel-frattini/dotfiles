@@ -45,3 +45,6 @@ vim.api.nvim_create_autocmd("InsertLeave", {
 vim.opt.formatoptions:append { 'r' }
 
 vim.g.copilot_assume_mapped = true
+
+-- Set leader key
+vim.g.mapleader = "<Space>"

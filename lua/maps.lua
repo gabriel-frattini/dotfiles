@@ -1,5 +1,7 @@
 local keymap = vim.keymap
 
+keymap.set('n', 'ä', 'b')
+
 keymap.set('n', 'x', '"_x')
 
 keymap.set('n', 'd9', 'd$')
@@ -9,12 +11,13 @@ keymap.set('n', 'c9', 'c$')
 keymap.set('n', 'bd', ':bd<CR>')
 
 -- switch buffers
-keymap.set('n','bn',':bn<CR>')
-keymap.set('n','bp',':bp<CR>')
+keymap.set('n', 'bn', ':bn<CR>')
+keymap.set('n', 'bp', ':bp<CR>')
 
 -- navigate quickfix window
 keymap.set('n', 'cc', ':ccl<CR>')
 keymap.set('n', 'co', ':copen<CR>')
+keymap.set('n', 'ca', 'cocc')
 
 -- native file explorer
 keymap.set('n', ';ef', ':Explore<Return><Esc>')

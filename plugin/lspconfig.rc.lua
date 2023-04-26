@@ -38,7 +38,7 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', 'gA', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
     buf_set_keymap('n', 'gR', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
     buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-    buf_set_keymap('n', 'gO', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
+    buf_set_keymap('n', 'gb', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
 
 end
 
