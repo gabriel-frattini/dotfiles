@@ -1,5 +1,8 @@
 local keymap = vim.keymap
 
+
+keymap.set('n', 'g5', ':resize 40<CR>')
+
 keymap.set('n', 'ä', 'b')
 
 keymap.set('n', 'x', '"_x')

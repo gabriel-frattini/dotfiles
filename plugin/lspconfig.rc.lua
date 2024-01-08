@@ -5,14 +5,17 @@ if (not status) then return end
 
 local protocol = require('vim.lsp.protocol')
 
+local _, nvim_lsp_fmt = pcall(require, "lsp-format")
+
 local augroup_format = vim.api.nvim_create_augroup("Format", { clear = true })
 local enable_format_on_save = function(_, bufnr)
     vim.api.nvim_clear_autocmds({ group = augroup_format, buffer = bufnr })
     vim.api.nvim_create_autocmd("BufWritePre", {
         group = augroup_format,
+        pattern = { "*.js", "*.jsx", "*.ts", "*.tsx" },
         buffer = bufnr,
         callback = function()
-            vim.lsp.buf.format({ bufnr = bufnr })
+            vim.lsp.buf.format({ bufnr = bufnr})
         end,
     })
 end
@@ -22,6 +25,10 @@ end
 local on_attach = function(client, bufnr)
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
 
+    nvim_lsp_fmt.on_attach(client, bufnr)
+    -- Interesting
+    -- client.resolved_capabilities.document_formatting = true
+    --
     --Enable completion triggered by <c-x><c-o>
     --local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
     --buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -39,7 +46,6 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', 'gR', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
     buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
     buf_set_keymap('n', 'gb', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
-
 end
 
 protocol.CompletionItemKind = {
@@ -74,6 +80,12 @@ protocol.CompletionItemKind = {
 local capabilities = require('cmp_nvim_lsp').default_capabilities(
     vim.lsp.protocol.make_client_capabilities()
 )
+
+-- nvim_lsp.kotlin.setup({
+--      capabilities = capabilities,
+--      flags = { debounce_text_changes = 500 },
+--      on_attach = on_attach,
+-- })
 
 nvim_lsp.erlangls.setup({
     on_attach = on_attach,
@@ -116,6 +128,11 @@ nvim_lsp.pyright.setup {
 }
 
 nvim_lsp.jdtls.setup {
+    on_attach = on_attach,
+    capabilities = capabilities
+}
+
+nvim_lsp.dafny.setup {
     on_attach = on_attach,
     capabilities = capabilities
 }
@@ -180,14 +197,25 @@ nvim_lsp.svelte.setup {
     filetypes = { "svelte", "html" }
 }
 
+nvim_lsp.volar.setup({
+    on_attach = on_attach,
+    capabilities = capabilities,
+    init_options = {
+        typescript = {
+            tsdk = vim.fn.getcwd() .. "/node_modules/typescript/lib",
+        },
+    },
+})
+
+
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
-    --underline = true,
-    update_in_insert = false,
-    virtual_text = false,
-    --virtual_text = { spacing = 4, prefix = "●" },
-    severity_sort = false,
-}
+        --underline = true,
+        update_in_insert = false,
+        virtual_text = false,
+        --virtual_text = { spacing = 4, prefix = "●" },
+        severity_sort = false,
+    }
 )
 
 -- Diagnostic symbols in the sign column (gutter)
