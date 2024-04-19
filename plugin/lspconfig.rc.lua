@@ -87,6 +87,11 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities(
 --      on_attach = on_attach,
 -- })
 
+nvim_lsp.kotlin_language_server.setup({
+    on_attach = on_attach,
+    capabilities = capabilities,
+})
+
 nvim_lsp.erlangls.setup({
     on_attach = on_attach,
     capabilities = capabilities,
